@@ -58,6 +58,7 @@ async function csvScript() {
         },
         limit: 1,
       });
+      category = JSON.parse(JSON.stringify(category));
       let category_id: any;
 
       if (category?.length === 0) {
@@ -66,15 +67,15 @@ async function csvScript() {
             category: item?.category,
           })
           .then((res) => {
-            console.log("res:", res);
-            category_id = res?.id;
+            let response = JSON.parse(JSON.stringify(res));
+            category_id = response?.id;
           });
       } else {
         category_id = category[0]?.id;
       }
-      console.log("category_id:", category_id);
 
-      const product = await models.product.findByPk(item.product_id);
+      let product = await models.product.findByPk(item.product_id);
+      product = JSON.parse(JSON.stringify(product));
       let product_id;
       if (!product) {
         await models.product
@@ -88,13 +89,15 @@ async function csvScript() {
             updated_at: new Date(),
           })
           .then((res) => {
-            product_id = res?.id;
+            let response = JSON.parse(JSON.stringify(res));
+            product_id = response?.id;
           });
       } else {
         product_id = product?.id;
       }
 
-      const customer = await models.customer.findByPk(item?.customer_id);
+      let customer = await models.customer.findByPk(item?.customer_id);
+      customer = JSON.parse(JSON.stringify(customer));
       let customer_id: any;
       if (!customer) {
         await models.customer
@@ -106,7 +109,8 @@ async function csvScript() {
             is_active: true,
           })
           .then((res) => {
-            customer_id = res?.id;
+            let response = JSON.parse(JSON.stringify(res));
+            customer_id = response?.id;
           });
       } else {
         customer_id = customer?.id;
@@ -119,6 +123,8 @@ async function csvScript() {
         limit: 1,
       });
 
+      paymentMethod = JSON.parse(JSON.stringify(paymentMethod));
+
       let paymentType: any;
 
       if (paymentMethod?.length === 0) {
@@ -128,7 +134,8 @@ async function csvScript() {
             is_active: true,
           })
           .then((res) => {
-            paymentType = res.id;
+            let response = JSON.parse(JSON.stringify(res));
+            paymentType = response.id;
           });
       } else {
         paymentType = paymentMethod[0].id;
@@ -143,6 +150,7 @@ async function csvScript() {
         unit_price: item?.unit_price,
         discount_amount: item?.discount_amount,
         date_of_sale: item?.date_of_sale,
+        shipping_cost: item?.shipping_cost,
         total_price:
           item?.quantity * item?.unit_price -
           item?.discount_amount +
