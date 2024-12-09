@@ -146,15 +146,15 @@ async function csvScript() {
         product_id: product_id,
         customer_id: customer_id,
         payment_type: paymentType,
-        quantity: item?.quantity,
-        unit_price: item?.unit_price,
-        discount_amount: item?.discount_amount,
+        quantity: item?.quantity || 0,
+        unit_price: item?.unit_price || 0,
+        discount_amount: item?.discount_amount || 0,
         date_of_sale: item?.date_of_sale,
-        shipping_cost: item?.shipping_cost,
+        shipping_cost: item?.shipping_cost || 0,
         total_price:
-          item?.quantity * item?.unit_price -
-          item?.discount_amount +
-          item?.shipping_cost,
+          (Number(item?.quantity) || 0) * (Number(item?.unit_price) || 0) -
+          (Number(item?.discount_amount) || 0) +
+          (Number(item?.shipping_cost) || 0),
         region: item?.region,
         is_active: true,
       });
