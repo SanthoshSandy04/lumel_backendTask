@@ -2,6 +2,19 @@
 
 Boilerplate with includes sequelize auto models
 
+# env
+
+```
+DB_NAME=lumel
+DB_USERNAME=postgres
+DB_PASSWORD=crayond@123
+DB_PORT=1998
+DB_HOST=216.48.182.148
+DB_DIALECT=postgres
+DATABASE_URL=postgresql://postgres:crayond@123@216.48.182.148:1998/lumel
+
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
