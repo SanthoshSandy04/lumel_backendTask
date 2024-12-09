@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model product_categories {
+  id         Int        @id @default(autoincrement())
+  category   String     @db.VarChar
+  is_active  Boolean    @default(true)
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime   @default(now()) @db.Timestamptz(6)
+  products   products[]
+}
+
+model payment_methods {
+  id         Int      @id @default(autoincrement())
+  method     String   @db.VarChar
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  orders     orders[]
+}
+
+model customers {
+  id                 String   @id @db.VarChar
+  customer_name      String   @db.VarChar
+  customer_email_id  String?  @unique @db.VarChar
+  customer_mobile_no String?  @unique @db.VarChar
+  customer_address   String?  @db.VarChar
+  is_active          Boolean  @default(true)
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime @default(now()) @db.Timestamptz(6)
+  orders             orders[]
+}
+
+model products {
+  id                  String              @id @db.VarChar
+  product_name        String              @db.VarChar
+  product_description String?             @db.VarChar
+  category_id         Int
+  unit_price          Float?
+  is_active           Boolean             @default(true)
+  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime            @default(now()) @db.Timestamptz(6)
+  product_categories  product_categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orders              orders[]
+}
+
+model orders {
+  id              String           @id @db.VarChar
+  product_id      String?          @db.VarChar
+  customer_id     String?          @db.VarChar
+  region          String?
+  date_of_sale    DateTime?        @db.Date
+  quantity        Int
+  unit_price      Float?
+  total_price     Float?
+  discount_amount Float?
+  shipping_cost   Float?
+  payment_type    Int
+  is_active       Boolean          @default(true)
+  created_at      DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime         @default(now()) @db.Timestamptz(6)
+  products        products?        @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customers       customers?       @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment_methods payment_methods? @relation(fields: [payment_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

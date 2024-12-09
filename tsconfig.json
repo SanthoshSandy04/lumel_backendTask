@@ -1,0 +1,23 @@
+{
+  "extends": "fastify-tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@config": ["config/index"],
+      "@helpers": ["helpers/index"],
+      "@interactors": ["interactors/index"],
+      "@mappers": ["mappers/index"],
+      "@middlewares": ["middlewares/index"],
+      "@services": ["services/index"],
+      "@serializers": ["serializers/index"],
+      "@models": ["models/index"]
+    },
+    "sourceMap": true,
+    "types": ["dotenv"],
+    "esModuleInterop": true,
+    // "skipLibCheck": true,
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["fastify-helmet"]
+}
